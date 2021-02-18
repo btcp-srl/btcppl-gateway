@@ -17,8 +17,12 @@ export class UsersController {
    */
   @Post()
   async create(@Request() req) {
-    let created = await this.usersService.create(req.body, req.headers.origin);
-    return created
+    if (req.body.xpub !== undefined && req.body.email !== undefined && req.body.password !== undefined && req.body.wallet !== undefined) {
+      let created = await this.usersService.create(req.body);
+      return created
+    } else {
+      return { message: "Malformed request.", error: true }
+    }
   }
 
   @Post('login')
@@ -26,7 +30,7 @@ export class UsersController {
     return this.usersService.login(req.body);
   }
 
-  @Get('validate/:staging/:token')
+  @Get('validate/:token')
   async validateMail(@Request() req, @Response() res) {
     try {
       await this.usersService.validateToken(req)

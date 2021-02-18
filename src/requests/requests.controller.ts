@@ -24,8 +24,8 @@ export class RequestsController {
   @UseGuards(JwtAuthGuard)
   @Get(':type')
   async returnRequests(@Request() req) {
-    let uploaded = await this.requestsService.get(req);
-    return uploaded
+    let history = await this.requestsService.get(req);
+    return history
   }
 
 }

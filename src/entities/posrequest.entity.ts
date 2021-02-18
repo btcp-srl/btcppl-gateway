@@ -1,13 +1,10 @@
 import { Column, Entity, ObjectIdColumn } from 'typeorm';
 
 @Entity()
-export class Request {
+export class PoSRequest {
 
   @ObjectIdColumn()
   _id: string;
-
-  @Column({ unique: true })
-  checkoutID: string;
 
   @Column()
   amount: string;
@@ -26,6 +23,12 @@ export class Request {
 
   @Column()
   hashUser: string;
+
+  @Column()
+  path: string;
+
+  @Column()
+  address: string;
 
   @Column({length: 4000})
   qrcode: string;

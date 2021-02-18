@@ -10,13 +10,10 @@ export class User {
   level: string;
 
   @Column()
-  role: string;
-
-  @Column()
   token: string;
 
   @Column()
-  doc_hash: string;
+  wallet: string;
   
   @Column()
   restore_token: string;
@@ -38,46 +35,7 @@ export class User {
   email: string;
 
   @Column()
-  phd: string;
-
-  @Column()
   password: string;
-
-  @Column()
-  country: string;
-
-  @Column()
-  address_1: string;
-
-  @Column()
-  address_2: string;
-
-  @Column()
-  city: string;
-
-  @Column()
-  state: string;
-
-  @Column()
-  gender: string;
-
-  @Column()
-  blood: string;
-
-  @Column()
-  cf: string;
-
-  @Column()
-  birth_place: string;
-  
-  @Column()
-  birth_date: string;
-  
-  @Column()
-  phone: string;
-
-  @Column()
-  description: string;
 
   @Column()
   hash: string;
@@ -87,9 +45,6 @@ export class User {
 
   @Column()
   xpub: string;
-
-  @Column()
-  address: string;
 
   @Column()
   timestamp_registration: number;

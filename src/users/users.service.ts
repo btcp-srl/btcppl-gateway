@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
-import { Request } from '../entities/request.entity';
+import { PoSRequest } from '../entities/posrequest.entity';
 import { MongoRepository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 const Utilities = require('../libs/Utilities')
@@ -18,29 +18,28 @@ export class UsersService {
     private jwtService: JwtService,
     @InjectRepository(User)
     private readonly userRepository: MongoRepository<User>,
-    @InjectRepository(Request)
-    private readonly requestRepository: MongoRepository<Request>) {
+    @InjectRepository(PoSRequest)
+    private readonly requestRepository: MongoRepository<PoSRequest>) {
   }
 
   /**
    * User functions
    */
 
-  create(req, origin): Promise<Object> {
+  create(req): Promise<Object> {
     return new Promise(async response => {
-      let checkExistEmail = await this.userRepository.findOne({ email: req.email })
-      let checkExistCF = await this.userRepository.findOne({ cf: req.cf })
-      if (checkExistEmail === undefined && checkExistCF === undefined) {
+      let checkExistXPub = await this.userRepository.findOne({ xpub: req.xpub })
+      if (checkExistXPub === undefined) {
         try {
           let newUser = new User();
           newUser = req
           newUser.level = 'user'
+          newUser.wallet = req.wallet
           let pwd = req.password.toString()
           newUser.password = await scrypta.hash(pwd)
           newUser.hash = await scrypta.hash(req.email)
-          newUser.role = req.role
           newUser.is_active = true
-          newUser.validated = true
+          newUser.validated = true // Just for development purposes, e-mail validation must be enabled.
           newUser.timestamp_registration = new Date().getTime()
           newUser.token = await scrypta.hash(newUser.timestamp_registration.toString())
 
@@ -119,7 +118,7 @@ export class UsersService {
   async getUser(req): Promise<User | any> {
     if (req.user.email) {
       let details = await this.userRepository.findOne({ email: req.user.email })
-      if (details !== undefined && details.role !== undefined) {
+      if (details !== undefined) {
         return details
       } else {
         return { message: 'Unauthorized', error: true }
