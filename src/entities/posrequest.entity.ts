@@ -33,9 +33,6 @@ export class PoSRequest {
   @Column({length: 4000})
   qrcode: string;
 
-  @Column()
-  requestAddress: string;
-
   @Column({ length: 4000 })
   requestPath: string;
 
